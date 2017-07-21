@@ -1,0 +1,150 @@
+<style lang="less">
+  .loading_component{
+    .loading {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .loading_mask {
+      position: fixed;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
+    .loading-dot {
+      width: 20rpx;
+      height: 20rpx;
+      margin: 0 20rpx;
+      background: black;
+      //border: 1px solid black;
+      border-radius: 50%;
+      //box-shadow:0 0 2rpx #cccccc;
+      opacity: 0;
+      animation: loadingFade 1s infinite;
+    }
+    .loading-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .loading-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .loading-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    .loading-dot:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+    @keyframes loadingFade {
+      0% { opacity: 0.1; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.1; }
+    }
+    .loading-text{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 20rpx;
+    }
+    .loadNone{
+      display: none;
+    }
+    .loading_show{
+      display: block;
+    }
+    .loading_border{
+      padding: 50rpx 100rpx;
+      border:1rpx solid #cccccc;
+      border-radius: 7px;
+    }
+    .loading_content{
+      top: 50%;
+      left: 50%;
+      position: fixed;
+      -webkit-transform: translate(-50%,-50%);
+      transform: translate(-50%,-50%);
+      border-radius: 5px;
+      //background: rgba(0,0,0,.7);
+      //color: #fff;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    @keyframes rotate-forever {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .loading-spinner {
+      animation-duration: 0.75s;
+      animation-iteration-count: infinite;
+      animation-name: rotate-forever;
+      animation-timing-function: linear;
+      height: 30px;
+      width: 30px;
+      border: 4px solid #cccccc;
+      border-right-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+</style>
+<template>
+  <view class="loading_component">
+    <view class="loadNone {{reveal ? 'loading_show' : ''}}">
+      <view class="loading_mask"></view>
+      <view class="loading_content {{border ? 'loading_border' : ''}}">
+        <view class="loading" wx:if="{{!spinnerType||spinnerType=='dot'}}">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+        <view class="loading" wx:if="{{spinnerType=='snake'}}">
+          <view class="loading-spinner"></view>
+        </view>
+        <view class="loading-text" wx:if="{{text}}">
+          <text style="font-size: 0.8em;font-family: Arial, '微软雅黑'">{{text}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Loading extends wepy.component {
+    props = {
+    }
+    data = {
+      reveal: false,
+      border: false,
+      text: '',
+      spinnerType:''
+    }
+    events = {
+    }
+    watch = {
+    }
+    methods = {
+    }
+    show(data={}){
+      this.reveal = true;
+      let keys = Object.keys(data);
+      for(let i=0;i<keys.length;i++){
+        this[keys[i]] = data[keys[i]];
+      }
+      this.$apply();
+    }
+    close(){
+      this.reveal = false;
+      this.$apply();
+    }
+  }
+</script>

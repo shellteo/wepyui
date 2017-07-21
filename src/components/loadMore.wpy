@@ -1,0 +1,24 @@
+<style lang="less">
+
+</style>
+<template>
+  <view>
+    123
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class LoadMore extends wepy.component {
+    props = {
+    }
+    data = {
+    }
+    events = {
+    }
+    watch = {
+    }
+    methods = {
+    }
+  }
+</script>
